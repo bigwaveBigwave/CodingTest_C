@@ -1,29 +1,35 @@
 #include<iostream>
-#include<vector>
+#include<stack>
 using namespace std;
 
 
 int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+
+
 	int N;
-	int total = 0;
 	cin >> N;
-	vector<int> v1;
+
+	long long ans = 0;
+	stack<long long> st;
 	for (int i = 0; i < N; i++) {
-		cin >> v1[i];
-	}
+		long long h;
+		cin >> h;
 
-	for (int j = 0; j < N-1; j++) {
-	
-		for (int t = 1; t < N; t++ ) {
-
-			if (v1[j] >= v1[j + t]) {
-				total++;
-			}
-			
+		while (!st.empty() && st.top() <= h) {
+			st.pop();
 		}
+
+		ans += st.size();
+
+		st.push(h);
 	}
 
-	cout << total;
+	cout << ans << '\n';
+
+
+
 
 	return 0;
 }
