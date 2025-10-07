@@ -17,7 +17,7 @@ int main() {
 
 	vector<int> v1(N);
 	for (int i = 0; i < N; i++) {
-		v1[i] = i;
+		v1[i] = i + 1;
 	}
 
 	for (int i = 0; i < M; i++) {
@@ -26,7 +26,7 @@ int main() {
 
 		temp = v1[u - 1];
 		v1[u - 1] = v1[k - 1];
-		v1[k - 1] = v1[temp];
+		v1[k - 1] = temp;
 
 	}
 
