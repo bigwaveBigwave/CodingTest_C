@@ -8,11 +8,11 @@ int main() {
 	ios::sync_with_stdio(false);
 	cin.tie(nullptr);
 
-	double N;
+	int N;
 	cin >> N;
-	double max_value = 0;
+	double max_value = 0.0;
 	vector<int> v(N);
-	vector<int> v2(N);
+	vector<double> v2(N);
 	for (int i = 0; i < N; i++) {
 		cin >> v[i];
 		if (v[i] > max_value) {
@@ -20,7 +20,7 @@ int main() {
 		}
 	}
 
-	double temp = 0;
+	double temp = 0.0;
 
 	for (int i = 0; i < N; i++) {
 		
@@ -29,7 +29,7 @@ int main() {
 		temp = temp + v2[i];
 	}
 
-	cout << temp / N;
+	cout << fixed << setprecision(6) << temp / N;
 
 
 
