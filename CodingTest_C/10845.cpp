@@ -22,11 +22,12 @@ int main() {
 			int K;
 			cin >> K;
 			q.push(K);
+			cout << q.front() << " ";
 
 		}
 		else if (command == "pop") {
 			if (q.empty() != 1) {
-				q.front();
+				cout << q.front() << " ";
 				q.pop();
 				
 			}
