@@ -29,41 +29,54 @@ vis[n][m]
 #define Y second
 
 int n, m;
-int cnt = 0;
-int max = 0;
 int dx[4] = { 1, 0, -1, 0 };
 int dy[4] = { 0, -1, 0, 1 };
-queue<pair<int, int>> q;
 
 int main() {
+
 	cin >> n >> m;
+
+	//행렬 입력 받기
 	vector<vector<int>> v1(n, vector<int> (m));
-	vector<vector<bool>> vis(n, vector<bool> (m));
+	vector<vector<bool>> vis(n, vector<bool> (m, 0)); // 이차원 벡터 초기값 0으로 만들기
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < m; j++) {
 			cin >> v1[i][j];
-			vis[i][j] = 0;
 		}
 	}
 
-	vis[0][0] = 1;
-	q.push({ 0, 0 });
-	vis[0][0] = 1;
-	while(!q.empty()) {
-		pair<int, int> curr = q.front(); q.pop();
-		cout << "(" << curr.first << ")" << ", " << curr.second << ")" << " ->";
-		for (int dir = 0; dir < 4; dir++) {
-			int nx = curr.X + dx[dir];
-			int ny = curr.Y + dy[dir];
-			if (nx < 0 || nx >= n || ny < 0 || ny >= m) continue;
-			if (vis[nx][ny] || v1[nx][ny] == 0) continue;
-			q.push({ nx, ny });
-			vis[nx][ny] = 1;
-			
+	int cnt = 0;// 그림의 개수
+	int mx = 0;// 가장 큰 그림의 넓이
+	//max를 변수로 하면 표준 함수 이름하고 겹치므로 바꾸기
 
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < m; j++) {
+			if (v1[i][j] != 1 || vis[i][j]) continue;
+
+			cnt++; // 새 그림 발견
+			int area = 0; // 각 그림의 넓이
+			queue<pair<int, int>> q;
+			q.push({ i, j });
+			vis[i][j] = 1;
+
+			while (!q.empty()) {
+				area++;
+				pair<int, int> cur = q.front(); q.pop();
+				for (int dir = 0; dir < 4; dir++) {
+					int nx = cur.X + dx[dir];
+					int ny = cur.Y + dy[dir];
+					if (nx < 0 || nx >= n || ny < 0 || ny >= m) continue;
+					if (vis[nx][ny] || v1[nx][ny] == 0) continue;
+					vis[nx][ny] = 1;
+					q.push({ nx, ny });
+
+				}
+			}
+			mx = max(mx, area);
 		}
-
 	}
+	cout << cnt << "\n" << mx;
+	
 	
 }
 
