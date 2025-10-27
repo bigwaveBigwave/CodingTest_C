@@ -40,7 +40,7 @@ int main() {
 	vector<int> v1(n);
 	queue<pair<int, int>> Q;
 	vis[0][0] = 1; //(0, 0)을 방문했다고 명시
-	Q.push({ 0,0 });
+	Q.push({ 0, 0 });
 	while (!Q.empty()) {
 		pair<int, int> cur = Q.front(); Q.pop();
 		cout << '(' << cur.X << ", " << cur.Y << ") -> ";
@@ -56,10 +56,7 @@ int main() {
 		}
 	}
 
-	for (int i = 0; i < n; i++) {
-		cin >> v1[i];
-	}
-	sort(v1.begin(), v1.end());
+	
 	
 
 	return 0;
