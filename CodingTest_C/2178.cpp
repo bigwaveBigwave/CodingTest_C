@@ -42,24 +42,25 @@ int main() {
 	
 
 	while (!q1.empty()) {
+		pair<int, int> curr = q1.front(); q1.pop();//3. pop은 한 번
 		for (int dir = 0; dir < 4; dir++) {
-			pair<int, int> curr = q1.front(); q1.pop();
 			int nx = curr.X + dx[dir];
 			int ny = curr.Y + dy[dir];
 			if (nx < 0 || nx >= N || ny < 0 || ny >= M) {
 				continue;
 			}
-			if (vis1[nx][ny] || v1[nx][ny] == 0) {
+			if (dist[nx][ny] || grid[nx][ny] == 0) {
 				continue;
 			}
+			
+			dist[nx][ny] = dist[curr.X][curr.Y] + 1;//최단거리 갱신
 			q1.push({ nx, ny });
-			vis1[nx][ny] = 1;
-			cnt++;
+			
 		}
 		
 	}
 
-	cout << cnt;
+	cout << dist[N-1][M-1];
 	
 
 
