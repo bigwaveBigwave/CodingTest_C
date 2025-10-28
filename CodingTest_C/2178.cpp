@@ -5,6 +5,9 @@ using namespace std;
 #define X first
 #define Y second
 
+int dx[] = { -1, 0, 1, 0 };
+int dy[] = { 0, -1, 0, 1 };
+
 //1. 문제 해석 : 주어진 행렬의 1,1 위치에서 N, M 위치까지 가는 최소 칸 수 구하기
 //2. 손으로 풀기
 /*
@@ -22,23 +25,21 @@ int main() {
 	cin >> N >> M;
 	cnt = 0;
 
-	vector<vector<int>> v1(N, vector<int>(M));
-	vector<vector<int>> vis1(N, vector<int>(M));
-
+	// 1. 행렬 입력 받을 시 공백 여부 잘 확인!
+	// 공백 없이 0/1이 주어지므로 문자열로 받기
+	vector<string> grid(N);
 	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < M; j++) {
-			cin >> v1[i][j];
-			vis1[i][j] = 0;
-		}
+		cin >> grid[i];
 	}
 
-	int dx[] = { -1, 0, 1, 0 };
-	int dy[] = { 0, -1, 0, 1 };
+	//이차원 벡터의 열을 0으로 채우기
+	vector<vector<int>> dist(N, vector<int>(M, 0));
 	queue<pair<int, int>> q1;
 
+	// 2. 시작점 0, 0 세팅
+	dist[0][0] = 1;
 	q1.push({ 1,1 });
-	vis1[1][1] = 1;
-	cout << " 어쩌라고 !!!";
+	
 
 	while (!q1.empty()) {
 		for (int dir = 0; dir < 4; dir++) {
