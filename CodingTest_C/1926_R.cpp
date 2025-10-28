@@ -50,25 +50,25 @@ int main() {
 	//max를 변수로 하면 표준 함수 이름하고 겹치므로 바꾸기
 
 	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
+		for (int j = 0; j < m; j++) {//전 칸을 순회하여 시작점 찾기
 			if (v1[i][j] != 1 || vis[i][j]) continue;
 
-			cnt++; // 새 그림 발견
+			cnt++; // 새 그림 발견(개수세기)
 			int area = 0; // 각 그림의 넓이
 			queue<pair<int, int>> q;
 			q.push({ i, j });
-			vis[i][j] = 1;
+			vis[i][j] = 1;//시작 전 방문 표시
 
 			while (!q.empty()) {
-				area++;
+				area++;//그림 크기 세기(큐에서 꺼낸 칸 1개 = 넓이 1 증가)
 				pair<int, int> cur = q.front(); q.pop();
 				for (int dir = 0; dir < 4; dir++) {
 					int nx = cur.X + dx[dir];
 					int ny = cur.Y + dy[dir];
 					if (nx < 0 || nx >= n || ny < 0 || ny >= m) continue;
 					if (vis[nx][ny] || v1[nx][ny] == 0) continue;
-					vis[nx][ny] = 1;
-					q.push({ nx, ny });
+					vis[nx][ny] = 1;//중복 방지
+					q.push({ nx, ny });//다음에 꺼낼 이웃
 
 				}
 			}
