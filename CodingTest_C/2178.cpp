@@ -38,7 +38,7 @@ int main() {
 
 	// 2. 시작점 0, 0 세팅
 	dist[0][0] = 1;
-	q1.push({ 1,1 });
+	q1.push({ 0,0 });
 	
 
 	while (!q1.empty()) {
@@ -49,7 +49,7 @@ int main() {
 			if (nx < 0 || nx >= N || ny < 0 || ny >= M) {
 				continue;
 			}
-			if (dist[nx][ny] || grid[nx][ny] == 0) {
+			if (dist[nx][ny] || grid[nx][ny] == '0') {//타입 주의
 				continue;
 			}
 			
