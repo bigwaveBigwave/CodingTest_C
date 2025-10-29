@@ -54,7 +54,7 @@ int main() {
 
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
-				v[i][j] = 1;
+				if (v[i][j] != 1 || vis[i][j]) continue;//새 덩어리의 시작점만
 				q1.push({ i, j });
 				while (!q1.empty()) {
 					pair<int, int> curr = q1.front(); q1.pop();
