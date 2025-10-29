@@ -35,19 +35,21 @@ while문 돌릴 때 마다 카운트 변수++;
 
 int main() {
 
-	int T, M, N, K, cnt;
-	int cnt = 0;
+	int T, M, N, K;
 	int x, y;
 	cin >> T;
 	while (T--) {
 		cin >> M >> N >> K;
-		vector<vector<int>> v(N, vector<int> (M));//이차원배열약간 헷갈림
+		vector<vector<int>> v(N, vector<int> (M, 0));//이차원배열약간 헷갈림
+
 		while (K--) {
 			cin >> y >> x;
 			v[x][y] = 1;
 
 		}
 		vector<vector<int>> vis(N, vector<int>(M, 0));//이차원배열약간 헷갈림
+		int cnt = 0; // 테스트 케이스마다 초기화!
+
 		queue<pair<int, int>> q1;//pair선언헷갈림
 
 		for (int i = 0; i < N; i++) {
