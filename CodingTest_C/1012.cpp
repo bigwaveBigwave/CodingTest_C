@@ -43,7 +43,7 @@ int main() {
 		cin >> M >> N >> K;
 		vector<vector<int>> v(N, vector<int> (M));//이차원배열약간 헷갈림
 		while (K--) {
-			cin >> x >> y;
+			cin >> y >> x;
 			v[x][y] = 1;
 
 		}
