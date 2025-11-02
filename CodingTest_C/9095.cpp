@@ -48,6 +48,6 @@ int main() {
 		cin >> n;
 		cout << d[n] << "\n";
 	}
-	
+
 	return 0;
 }
