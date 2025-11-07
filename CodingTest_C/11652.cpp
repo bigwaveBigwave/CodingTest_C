@@ -12,8 +12,8 @@ int main() {
 
 	for (int i = 0; i < N; i++) {
 		long long a;
-		cin >> a;
-		v.push_back(a);
+	
+		cin >> v[i];
 	}
 	sort(v.begin(), v.end());
 	int cnt = 0;
