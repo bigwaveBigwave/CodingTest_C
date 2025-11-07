@@ -17,11 +17,11 @@ int main() {
 	}
 	sort(v.begin(), v.end());
 	int cnt = 0;
-	long long mxval = -2 ^ 62 - 1;
+	long long mxval = v[0];
 	int mxcnt = 0;
 
 	for (int i = 0; i < N; i++) {
-		if (i == 0 || v[i - 1] == v[i]) {
+		if (i == 0 || v[i - 1] == v[i]) {//||연산자는 왼쪽이 true면 오른쪽은 평가하지 않음. v[-1]이될 경우X
 			cnt++;
 		}
 		else {
