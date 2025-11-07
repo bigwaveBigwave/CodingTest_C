@@ -105,5 +105,14 @@
     <ClCompile Include="1431.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="11652.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="pr_targetnumber.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="pr_게임맵최단거리.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
