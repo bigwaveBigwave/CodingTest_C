@@ -32,7 +32,7 @@ int main() {
 			cnt = 1;
 		}
 	}
-	if (cnt > mxcnt) mxval = v[N - 1];
+	if (cnt > mxcnt) mxval = v[N - 1];//마지막 원소 루프 확인
 	cout << mxval;
 	return 0;
 }
