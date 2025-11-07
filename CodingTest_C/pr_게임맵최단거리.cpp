@@ -1,5 +1,6 @@
 #include<vector>
 #include<stack>
+#include<queue>
 using namespace std;
 
 //문제해석
@@ -25,7 +26,7 @@ int solution(vector<vector<int> > maps)
 
     vector<vector<int>> v = maps;
     int answer = 0;
-    stack<pair<int, int>> s1;
+    queue<pair<int, int>> s1;
     int dx[] = { -1, 0, 1, 0 };
     int dy[] = { 0, 1, 0, -1 };
 
