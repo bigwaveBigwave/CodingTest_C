@@ -30,13 +30,13 @@ int solution(vector<vector<int> > maps)
     int dx[] = { -1, 0, 1, 0 };
     int dy[] = { 0, 1, 0, -1 };
 
-    s1.push({ 1,1 });
+    s1.push({ 0,0 });
     if (!s1.empty()) {
-        pair<int, int> p = s1.top(); s1.pop();
-        for (int i = 0; i < 4; i++({
+        pair<int, int> p = s1.front(); s1.pop();
+        for (int i = 0; i < 4; i++){
             int nx = p.first + dx[i];
             int ny = p.second + dy[i];
-            if (nx < 0 || nx > maps.size() || ny < 0 || ny > maps[0].size()) continue;
+            if (nx < 0 || nx >= maps.size()-1 || ny < 0 || ny >= maps[0].size()-1) continue;
             if (maps[nx][ny] == 0 || v[nx][ny] == 1) continue;
             if (nx == maps.size() && ny = maps[0].size()) return;
             s.push({nx, ny});
