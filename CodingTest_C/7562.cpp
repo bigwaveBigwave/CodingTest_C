@@ -6,7 +6,7 @@ using namespace std;
 
 int dx[] = { -2, -2, -1, -1, 1, 1, 2, 2 };
 int dy[] = { 1, -1, 2, -2, 2, -2, 1, -1 }; 
-queue<pair<int, int>> q;
+
 int t, n;
 int cnt = 0;//최소 이동 개수
 int main() {
@@ -19,6 +19,7 @@ int main() {
 		int fx, fy;//지향 좌표
 		cin >> cx >> cy;
 		cin >> fx >> fy;
+		queue<pair<int, int>> q;//매 테스트 케이스 마다 새로 생성(큐가 비어야되니까)
 
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
@@ -27,8 +28,8 @@ int main() {
 		}
 		vis[cx][cy] = 0;
 		if (cx == fx && cy == fy) {
-			cout << 0;
-			return 0;
+			cout << 0 << "\n";
+			continue;//시작과 지향 좌표가 같으면 BFS 안 돌려도 되니까 continue(return은 프로그램을 바로 끝내버림)
 		};
 		q.push({ cx, cy });
 		while (!q.empty()) {
@@ -43,7 +44,7 @@ int main() {
 				q.push({ nx, ny });
 			}
 		}
-		cout << vis[fx][fy] << " ";
+		cout << vis[fx][fy] << "\n";
 	}
 	
 
