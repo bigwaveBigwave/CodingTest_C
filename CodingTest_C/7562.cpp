@@ -20,6 +20,11 @@ int main() {
 		cin >> cx >> cy;
 		cin >> fx >> fy;
 
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				vis[i][j] = -1;
+			}
+		}
 		vis[cx][cy] = 0;
 		if (cx == fx && cy == fy) {
 			cout << 0;
@@ -33,7 +38,7 @@ int main() {
 				int nx = cur.first + dx[dir];
 				int ny = cur.second + dy[dir];
 				if (nx < 0 || nx >= n || ny < 0 || ny >= n) continue;
-				if (vis[nx][ny] > 0) continue;
+				if (vis[nx][ny] >= 0) continue;
 				vis[nx][ny] = vis[cur.first][cur.second] + 1;
 				q.push({ nx, ny });
 			}
