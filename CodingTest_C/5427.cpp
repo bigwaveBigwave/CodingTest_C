@@ -26,9 +26,9 @@ int main() {
 		// 불(*) : 1, 현재 위치(다시 안 옴)
 		// 
 		// 상근이의 방문배열
-		// 벽(#) : -1
-		// 상근(@) : 1, 현재 위치(다시 안 옴)
-		// 길(.) : 0, 갈수있음
+		// 벽(#) : -1 완
+		// 상근(@) : 1, 현재 위치(다시 안 옴) 완
+		// 길(.) : 0, 갈수있음 완
 		// 불(*) : 이제 위치하게되는 곳은 못감(-1) / 지금 있거나 지나간 곳은 갈 수 있음(0)
 
 		//상근이가 행이나 열의 범위를 넘어서면 탈출 완료
@@ -64,31 +64,33 @@ int main() {
 				}
 				//그 외 '.' 은 갈 수 있는 곳(0)
 			}
-			while (Q_s.front() == Q_f.front()) {
-				pair<int, int> cur_s = Q_s.front(); Q_s.pop();
-				pair<int, int> cur_f = Q_f.front(); Q_f.pop();
-				for (int dir = 0; dir < 4; dir++) {
-					int nx = cur_s.X + dx[dir];
-					int ny = cur_s.Y + dy[dir];
-					int nx_f = cur_f.X + dx[dir];
-					int ny_f = cur_f.Y + dy[dir];
-					if (nx < 0 || ny < 0 || nx_f < 0 || ny_f<0 || nx_f >= w || ny_f >= h) {
-						continue;
-					}
-					if (visit_s[nx][ny] == -1/*벽(상근)*/ || visit_s[nx][ny] == 1/*지금 있는 위치(상근)*/ ||
-						visit_f[nx][ny] == -1/*벽(불)*/ || visit_f[nx][ny] == 1/*지금 있는 위치(불)*/) {
-						continue;
-					}
-					if (nx >= w || ny >= h) {
-						cout << visit_s[nx][ny] << "\n";
-						break;
-					}
+			
+		}
 
-					visit_s[nx][ny] = visit_s[cur_s.X][cur_s.Y] + 1;
-					Q_s.push({ nx, ny });
+		while (Q_s.front() == Q_f.front()) {
+			pair<int, int> cur_s = Q_s.front(); Q_s.pop();
+			pair<int, int> cur_f = Q_f.front(); Q_f.pop();
+			for (int dir = 0; dir < 4; dir++) {
+				int nx = cur_s.X + dx[dir];
+				int ny = cur_s.Y + dy[dir];
+				int nx_f = cur_f.X + dx[dir];
+				int ny_f = cur_f.Y + dy[dir];
+				if (nx < 0 || ny < 0 || nx_f < 0 || ny_f < 0 || nx_f >= w || ny_f >= h) {
+					continue;
 				}
-				cout << "IMPOSSIBLE" << "\n";
+				if (visit_s[nx][ny] == -1/*벽(상근)*/ || visit_s[nx][ny] == 1/*지금 있는 위치(상근)*/ ||
+					visit_f[nx][ny] == -1/*벽(불)*/ || visit_f[nx][ny] == 1/*지금 있는 위치(불)*/) {
+					continue;
+				}
+				if (nx >= w || ny >= h) {
+					cout << visit_s[nx][ny] << "\n";
+					break;
+				}
+
+				visit_s[nx][ny] = visit_s[cur_s.X][cur_s.Y] + 1;
+				Q_s.push({ nx, ny });
 			}
+			cout << "IMPOSSIBLE" << "\n";
 		}
 	}
 	
