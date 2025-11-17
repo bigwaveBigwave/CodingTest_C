@@ -5,92 +5,88 @@ using namespace std;
 #define X first
 #define Y second
 
-int dx[] = { -1, 0, 1, 0 };
-int dy[] = { 0, 1, 0, -1 };
+int dx[4] = { -1, 0, 1, 0 };
+int dy[4] = { 0, 1, 0, -1 };
 
 int main() {
-	int w, h, t;
-	string s;
-	cin >> t;
-	for (int i = 0; i < t; i++) {
-		cin >> w >> h;
-		vector<vector<char>> board(h, vector<char> (w));
-		vector<vector<int>> visit_s(h, vector<int>(w));
-		vector<vector<int>> visit_f(h, vector<int>(w));
-		queue<pair<int, int>> Q_s;
-		queue<pair<int, int>> Q_f;
-		//불의 방문 배열
-		// 벽(#) : -1, 못감
-		// 상근(@) : 0, 갈 수 있음
-		// 길(.) : 0, 갈수있음
-		// 불(*) : 1, 현재 위치(다시 안 옴)
-		// 
-		// 상근이의 방문배열
-		// 벽(#) : -1 완
-		// 상근(@) : 1, 현재 위치(다시 안 옴) 완
-		// 길(.) : 0, 갈수있음 완
-		// 불(*) : 이제 위치하게되는 곳은 못감(-1) / 지금 있거나 지나간 곳은 갈 수 있음(0)
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
 
-		//상근이가 행이나 열의 범위를 넘어서면 탈출 완료
-		//
-		//불이 상근이를 잡아먹으면 탈출 불가
-		//
-		//둘이 안 마주치면 BFS 계속
+	int T;
+	while (T--) {
+		int w, h;
+		cin >> w >> h;
+		vector<string> board(h);
 		for (int i = 0; i < h; i++) {
-			
-			cin >> s;
-			for (int j = 0; j < w; j++) {
-				char k = s[j];
-				board[i][j] = k;
-				//상근이가 위치한 곳(1)
-				if (k == '@') {
-					int sx = i;
-					int sy = j;
-					visit_s[i][j] = 1;
-					Q_s.push({ i, j });
-				}
-			   //불이 위치한 곳(1)
-				else if (k == '*') {
-					int fx = i;
-					int fy = j;
-					visit_s[i][j] = -1;
-					visit_f[i][j] = 1;
-					Q_f.push({ i, j });
-				}
-				//벽이어서 갈 수 없는 곳(-1)
-				else if (k == '#') {
-					visit_s[i][j] = -1;
-					visit_f[i][j] = -1;
-				}
-				//그 외 '.' 은 갈 수 있는 곳(0)
-			}
-			
+			cin >> board[i];
 		}
 
-		while (Q_s.front() == Q_f.front()) {
-			pair<int, int> cur_s = Q_s.front(); Q_s.pop();
-			pair<int, int> cur_f = Q_f.front(); Q_f.pop();
+		//dist_fire, dist_sang : -1 = 안 도달
+		vector<vector<int>> dist_fire(h, vector<int>(w, -1));
+		vector<vector<int>> dist_sang(h, vector<int>(w, -1));
+		queue<pair<int, int>> qf;
+		queue<pair<int, int>> qs;
+
+		//초기 위치 세팅
+		for (int i = 0; i < h; i++) {
+			for (int j = 0; j < w; j++) {
+				if (board[i][j] == '*') {
+					dist_fire[i][j] = 0;
+					qf.push({ i, j });
+				}
+				else if (board[i][j] == '@') {
+					dist_sang[i][j] = 0;
+					qs.push({ i, j });
+				}
+			}
+		}
+
+		// 1) 불 전파 BFS(멀티소스)
+		while (!qf.empty()) {
+			auto cur = qf.front(); qf.pop();
+			int cx = cur.first, cy = cur.second;
 			for (int dir = 0; dir < 4; dir++) {
-				int nx = cur_s.X + dx[dir];
-				int ny = cur_s.Y + dy[dir];
-				int nx_f = cur_f.X + dx[dir];
-				int ny_f = cur_f.Y + dy[dir];
-				if (nx < 0 || ny < 0 || nx_f < 0 || ny_f < 0 || nx_f >= w || ny_f >= h) {
-					continue;
-				}
-				if (visit_s[nx][ny] == -1/*벽(상근)*/ || visit_s[nx][ny] == 1/*지금 있는 위치(상근)*/ ||
-					visit_f[nx][ny] == -1/*벽(불)*/ || visit_f[nx][ny] == 1/*지금 있는 위치(불)*/) {
-					continue;
-				}
-				if (nx >= w || ny >= h) {
-					cout << visit_s[nx][ny] << "\n";
+				int nx = cx + dx[dir], ny = cy + dy[dir];
+				if (nx < 0 || nx >= h || ny < 0 || ny >= w) continue;
+				if (board[nx][ny] == '#') continue;//벽
+				if (dist_fire[nx][ny] != -1) continue;//이미 전파된 자리
+				dist_fire[nx][ny] = dist_fire[cx][cy] + 1;
+				qf.push({ nx, ny });
+			}
+		}
+
+		//2 ) 상근이 BFS(불 시간과 비교)
+		bool escaped = false;
+		int answer = -1;
+		//큐가 비어있지 않으면서 아직 탈출하지 않았으면 반복분을 계속 수행한다
+		while (!qf.empty() && !escaped) {
+			auto cur = qs.front(); qs.pop();
+			int cx = cur.first, cy = cur.second;
+			for (int dir = 0; dir < 4; dir++) {
+				int nx = cx + dx[dir];
+				int ny = cy + dy[dir];
+				//범위를 벗어나면 탈출 성공(현재 위치 시간 +1)
+				if (nx < 0 || nx >= h || ny < 0 || ny >= w) {
+					escaped = true;
+					answer = dist_sang[cx][cy] + 1;
 					break;
 				}
-
-				visit_s[nx][ny] = visit_s[cur_s.X][cur_s.Y] + 1;
-				Q_s.push({ nx, ny });
+				if (board[nx][ny] == '#') continue;
+				if (dist_sang[nx][ny] != -1) continue; // 이미 방문
+				int nextTime = dist_sang[cx][cy] + 1;
+				//불이 도달하, 상근이 먼저 도착할 수 있어야함
+				if (dist_fire[nx][ny] != -1 && nextTime >= dist_fire[nx][ny]) continue;
+				dist_sang[nx][ny] = nextTime;
+				qs.push({ nx, ny });
 			}
-			cout << "IMPOSSIBLE" << "\n";
+
+		}
+
+		if (escaped) {
+			cout << answer << '\n';
+		}
+		else {
+			cout << "IMPOSSIBLE" << '\n';
 		}
 	}
 	
