@@ -32,12 +32,16 @@ int main() {
             int nx = cur.first + dx[dir];
             int ny = cur.second + dy[dir];
             if (nx < 0 || nx >= N || ny < 0 || ny >= M) continue;
-            if (dist[nx][ny] == 1 || board[nx][ny] == 1) continue;
+            if (dist[nx][ny] != 0 || board[nx][ny] == 1) continue;
             dist[nx][ny] = dist[cur.first][cur.second] + 1;
             q.push({ nx, ny });
-            answer += 1;
+            if (nx == N - 1 && ny == M - 1) {
+                cout << dist[nx][ny] << "\n";
+                return;
+            }
         }
 
     }
+
     return 0;
 }
