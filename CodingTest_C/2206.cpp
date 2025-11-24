@@ -13,7 +13,7 @@ int main() {
     int answer = 0;//최단경로거리
     cin >> N >> M;
     vector<vector<int>> board(N, vector<int> (M));
-    vector<vector<int>> visit(N, vector<int> (M));//방문배열
+    vector<vector<int>> dist(N, vector<int> (M));//최단거리배열
     queue<pair<int, int>> q;
     for (int i = 0; i < N; i++) {
         string a;
@@ -23,7 +23,7 @@ int main() {
         }
 
     }
-    visit[0][0] = 1;
+    dist[0][0] = 1;
     answer = 1;
     q.push({ 0, 0 });
     while (!q.empty()) {
@@ -32,8 +32,8 @@ int main() {
             int nx = cur.first + dx[dir];
             int ny = cur.second + dy[dir];
             if (nx < 0 || nx > N || ny < 0 || ny > M) continue;
-            if (visit[nx][ny] == 1 || board[nx][ny] == 1) continue;
-            visit[nx][ny] = 1;
+            if (dist[nx][ny] == 1 || board[nx][ny] == 1) continue;
+            dist[nx][ny] = dist[cur.first][cur.second] + 1;
             q.push({ nx, ny });
             answer += 1;
         }
