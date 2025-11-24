@@ -19,7 +19,7 @@ int main() {
         string a;
         cin >> a;//getline은 줄 전체를 문자열로 읽음(cin은 단어 단위)
         for (int j = 0; j < M; j++) {
-            board[i][j] = a[j];
+            board[i][j] = a[j] - '0';//char타입이니까 정수형으로 변환
         }
 
     }
