@@ -37,7 +37,7 @@ int main() {
             q.push({ nx, ny });
             if (nx == N - 1 && ny == M - 1) {
                 cout << dist[nx][ny] << "\n";
-                return;
+                return;//break, return Â÷ÀÌ
             }
         }
 
