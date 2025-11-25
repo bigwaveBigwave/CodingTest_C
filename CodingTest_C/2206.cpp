@@ -2,6 +2,7 @@
 #include<queue>
 #include<algorithm>
 #include<vector>
+#include<tuple>
 
 using namespace std;
 int dx[] = { -1, 0, 1, 0 };
@@ -36,7 +37,7 @@ int bfs() {
     while (!q.empty()) {
         int x, y, broken;
         tie(x, y, broken) = q.front();//tie를 써서 세 변수로 분해해서 받기
-        if (x == n - 1 && y = m - 1) return dist[x][y][broken];
+        if (x == n - 1 && y == m - 1) return dist[x][y][broken];
         q.pop();
         int nextdist = dist[x][y][broken] + 1;
         for (int dir = 0; dir < 4; dir++) {
