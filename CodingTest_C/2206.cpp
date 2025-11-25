@@ -13,7 +13,10 @@ int main() {
     int answer = 0;//최단경로거리
     cin >> N >> M;
     vector<vector<int>> board(N, vector<int> (M));
-    vector<vector<int>> dist(N, vector<int> (M));//최단거리배열
+    //vector<vector<int>> dist(N, vector<int> (M));//최단거리배열
+
+    //dist[x][y][b] : (x, y)에 벽을 b번 부순 상태(0 또는 1)로 도착한 최단 거리
+    vector<vector<vector<int>>> dist(N, vector<vector<int>> (M, vector<int>(2, 0)));//최단거리배열
     queue<pair<int, int>> q;
     for (int i = 0; i < N; i++) {
         string a;
