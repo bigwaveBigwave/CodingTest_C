@@ -67,8 +67,10 @@ int main() {
     board.resize(n, vector<int>(m));
     dist.resize(n, vector<vector<int>>(m, vector<int>(2, 0)));
     for (int i = 0; i < n; i++) {
+        string s;
+        cin >> s;
         for (int j = 0; j < m; j++) {
-            cin >> board[i][j];
+            board[i][j] = s[j] - '0';
         }
     }
     cout << bfs();
