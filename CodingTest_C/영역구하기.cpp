@@ -6,6 +6,7 @@
 using namespace std;
 int dx[] = { -1, 0, 1, 0 };
 int dy[] = { 0, 1, 0, -1 };
+int e1, e2 = 0;
 
 int main() {
     ios::sync_with_stdio(false);
@@ -41,20 +42,21 @@ int main() {
                         int nx = cur.first + dx[dir];
                         int ny = cur.second + dy[dir];
                         if (nx < 0 || nx >= m || ny < 0 || ny >= n) continue;
-                        if (dist[nx][ny]  != 0 || board[nx][ny] == 1) continue;
-                        dist[nx][ny] = 1;
+                        if (dist[nx][ny] > 0 || board[nx][ny] == 1) continue;
+                        dist[nx][ny] = (nx + 1) * (ny + 1);
                         q.push({ nx, ny });
+                        
                     }
                 }
                 count += 1;
-                extent.push_back((nx + 1) * (ny + 1));
+                //extent.push_back((nx + 1) * (ny + 1));
             }
 
         }
     }
-    sort(extent.begin(), extent.end());
+    sort(extent.begin(), extent.end(), greater<>());//내림차순
     cout << count << '\n';
-    for (int t = 0; t < extent.size(); t++) {
+    for (int t = 0; t < count; t++) {
         cout << extent[t] << " ";
     }
 
