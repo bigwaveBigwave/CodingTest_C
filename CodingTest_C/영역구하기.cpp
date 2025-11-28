@@ -45,11 +45,12 @@ int main() {
                         if (dist[nx][ny] > 0 || board[nx][ny] == 1) continue;
                         dist[nx][ny] = (nx + 1) * (ny + 1);
                         q.push({ nx, ny });
-                        
+                        e1 = nx;
+                        e2 = ny;
                     }
                 }
                 count += 1;
-                //extent.push_back((nx + 1) * (ny + 1));
+                extent.push_back((e1 + 1) * (e2 + 1));
             }
 
         }
