@@ -16,7 +16,7 @@ int main() {
         string s;
         cin >> s;
         for (int j = 0; j < n; j++) {
-            board[i][j] = s[j];
+            board[i][j] = s[j] - '0';
         }
     }
     queue<pair<int, int>> q;
@@ -28,6 +28,8 @@ int main() {
                 dist[p][k] = 1;
                 q.push({ p, k });
                 int home = 0;
+                count++;
+                
                 while (!q.empty()) {
                     pair<int, int> curr = q.front(); q.pop();
                     home++;
@@ -40,7 +42,7 @@ int main() {
                         q.push({ nx, ny });
                     }
                 }
-                count += 1;
+                
                 e.push_back(home);
             }
         }
