@@ -1,64 +1,50 @@
-#include <iostream>
+#include<iostream>
+#include<vector>
 #include<queue>
 using namespace std;
+int n, w, L;//트럭의 수, 다리의 길이, 최대 하중
+int timee = 0;//소요시간
+int sum = 0;//소요시간
+queue<int> bridge;//다리위 트럭의 위치
+queue<int> wait;//다리 안 간 트럭들
 
-int n, w, L, ans;
-int bridge[101];//다리의 칸 별 무게(트럭의 무게)를 저장하는 변수
-queue<int> truck;//이동하는 트럭의 목록을 순차적으로 저장하는 변수
-
-//다리가 비었는지 확인하는 변수
-bool isEmpty() {
-	for (int i = 0; i < w; i++) {
-		if (bridge[i]) return false;
-		return true;
-	}
-}
-
-
-//트럭의 이동을 진행하는 함수
-void go() {
-
-	for (int i = w - 1; i > 0; i--) {
-		bridge[i] = bridge[i - 1];
-
-	}
-	bridge[0] = 0;
-}
-
-//다리 위 트럭의 무게를 계산하는 함수
-int calculate() {
-	int sum = 0;
-	for (int i = 0; i < w; i++) {
-		sum += bridge[i];
-
-	}
-	return sum;
-}
 
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(nullptr);
-	cin >> n >> w >> L;
-	while (n--) {
-		int i;
-		cin >> i;
-		truck.push(i);//출발할 트럭의 목록을 순차적으로 저장
-	}
+    cin >> n >> w >> L;
 
-	do {
-		int tmp = calculate();//현재 다리 위 트럭들의 무게
-		if (tmp <= L) {
-			tmp -= bridge[w - 1];//나갈 트럭의 무게를 제외
-			go();
-			//추가로 이동할 트럭이 있고, 다리가 무게를 버틸 경우
-			if (!truck.empty() && (tmp + truck.front() <= L)) {
-				bridge[0] = truck.front(); truck.pop();
-			}
-			
-		}
-		ans++;
-	} while (!isEmpty());//모든 트럭이 이동하여 다리가 빌 때까지 반복
+    for (int i = 0; i < n; i++) {
+        int weight;//트럭의 무게
+        cin >> weight;
+        wait.push(weight);
+    }
+    for (int i = 0; i < w; i++) {
+        bridge.push(0);
+    }
 
-	cout << ans;
-	return 0;
+    while (!bridge.empty()) {
+        timee++;
+
+        //1. 한 칸 전진 : 맨 앞 칸 트럭(또는 0)이 나감
+        sum -= bridge.front();
+        bridge.pop();
+
+        //2. 새 트럭을 올릴 수 있는지 확인
+        if (!wait.empty()) {
+            if (sum + wait.front() <= L) {
+                //올릴 수 있다면 트럭 진입
+                int x = wait.front();
+                wait.pop();
+                bridge.push(x);
+                sum += x;
+            }
+            else {
+                //못 올리면 빈칸(0)만 올리기
+                bridge.push(0);
+            }
+        }
+    }
+
+    cout << timee << "\n";
+
+    return 0;
 }
