@@ -9,7 +9,7 @@ bool vis[12][6]; // 필드 방문 여부
 string board[12]; // 필드 상태
 int dx[] = { 1, 0, -1, 0 };
 int dy[] = { 0, 1, 0, -1 };
-int ans;
+int ans = 0;
 
 // vis 배열 초기화
 void resetVis() {
