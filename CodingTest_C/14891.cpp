@@ -1,5 +1,8 @@
 
-#include <bits/stdc++.h>
+#include <algorithm>
+#include <iostream>
+#include <vector>
+#include <queue>
 using namespace std;
 
 string board[4];
