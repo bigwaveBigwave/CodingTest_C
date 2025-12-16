@@ -1,6 +1,9 @@
 // you can use includes, for example:
-#include <algorithm>
+#include<algorithm>
 #include<climits>
+#include<vector>
+#include <iostream>
+using namespace std;
 
 // you can write to stdout for debugging purposes, e.g.
 // cout << "this is a debug message" << endl;
@@ -29,15 +32,15 @@ N 배열이 N개 있음
 
 //점화식 : n개의 요소값을 더했을 때의 값(최대여야함)
 
-int solution(vector<int>& A) {
+int solution(vector <int>& A) {
     // Implement your solution 
     int N = (int)A.size();
     vector<int> dp(N, INT_MIN);
     dp[0] = A[0];
-    for (int i = 0; i < N; i++) {
+    for (int i = 1; i < N; i++) {//dp[0]은 고려했는데 그리고 너무 작아서 오버플로우 발생
         int best = INT_MIN;
         for (int k = 1; k <= 6; k++) {
-            if (i - k > 0) {
+            if (i - k >= 0) {//dp[0]도 고려(이전 값이 0인덱스인 경우도 고려)
                 best = max(best, dp[i - k]);
 
 
