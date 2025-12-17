@@ -13,20 +13,41 @@
 #include<vector>
 using namespace std;
 
+int N;
+vector<int> A;
+int op[4]; //¿¬»êÀÚ
+long long mx = LLONG_MIN;
+long long mn = LLONG_MAX;
+
+void dfs(int idx, long long curr) {
+    if (idx == N) {
+        mx = max(mx, curr);
+        mn = min(mn, curr);
+        return;
+    }
+
+    if (op[0] > 0) {
+        op[0]--;
+        dfs(idx + 1, curr + A[idx]);
+    }
+}
+
 int main() {
-    int N;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
     cin >> N;
     vector<int> v(N);
     for (int i = 0; i < N; i++) {
         cin >> v[i];
     }
-    vector<int> oper(4);
-    for (int j = 0; i < 4; j++) {
-        cin >> oper[j];
+    
+    for (int j = 0; j < 4; j++) {
+        cin >> op[j];
     }
-    int maxV = 0;
-    int minV = 0;
+    
+    dfs(1, A[0]);
 
-
+    cout << mx << "\n" << mn << "\n";
     return 0;
 }
