@@ -174,7 +174,7 @@
     <ClCompile Include="14500.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="NAVER_codingTest.cpp">
+    <ClCompile Include="8911.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="2210.cpp">
