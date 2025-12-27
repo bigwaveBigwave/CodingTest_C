@@ -2,50 +2,57 @@
 #include <vector>
 using namespace std;
 
-int n;
-vector<int> inOrder;
-vector<int> postOrder;
-vector<int> pos;  // 값 -> 중위순회에서의 인덱스
+class TreeRebuilder {
+public:
+    TreeRebuilder(int n, vector<int> inorder, vector<int> postorder)
+        : n_(n), inorder_(move(inorder)), postorder_(move(postorder)), indexInInorder_(n_ + 1, -1) {
+        // 값 -> inorder 인덱스
+        for (int i = 0; i < n_; ++i) {
+            indexInInorder_[inorder_[i]] = i;
+        }
+    }
 
-void solve(int inStart, int inEnd, int postStart, int postEnd) {
-    if (inStart > inEnd || postStart > postEnd) return;
+    void printPreorder(ostream& out) const {
+        buildAndPrint(0, n_ - 1, 0, n_ - 1, out);
+    }
 
-    int root = postOrder[postEnd];       // 후위 순회의 마지막 = 루트
-    cout << root << ' ';
+private:
+    int n_;
+    vector<int> inorder_;
+    vector<int> postorder_;
+    vector<int> indexInInorder_; // value -> inorder index
 
-    int rootIdx = pos[root];             // 중위 순회에서 루트의 위치
-    int leftSize = rootIdx - inStart;    // 왼쪽 서브트리 크기
+    void buildAndPrint(int inL, int inR, int postL, int postR, ostream& out) const {
+        if (inL > inR || postL > postR) return;
 
-    // 왼쪽 서브트리
-    solve(inStart, rootIdx - 1,
-        postStart, postStart + leftSize - 1);
+        const int root = postorder_[postR];
+        out << root << ' ';
 
-    // 오른쪽 서브트리
-    solve(rootIdx + 1, inEnd,
-        postStart + leftSize, postEnd - 1);
-}
+        const int rootIdx = indexInInorder_[root];
+        const int leftSize = rootIdx - inL;
+
+        // Left subtree
+        buildAndPrint(inL, rootIdx - 1,
+            postL, postL + leftSize - 1, out);
+
+        // Right subtree
+        buildAndPrint(rootIdx + 1, inR,
+            postL + leftSize, postR - 1, out);
+    }
+};
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
+    int n;
     cin >> n;
-    inOrder.resize(n);
-    postOrder.resize(n);
-    pos.resize(n + 1);
 
-    for (int i = 0; i < n; i++) {
-        cin >> inOrder[i];
-    }
-    for (int i = 0; i < n; i++) {
-        cin >> postOrder[i];
-    }
+    vector<int> inorder(n), postorder(n);
+    for (int i = 0; i < n; ++i) cin >> inorder[i];
+    for (int i = 0; i < n; ++i) cin >> postorder[i];
 
-    // 값 -> 인덱스 매핑 (중위순회에서의 위치)
-    for (int i = 0; i < n; i++) {
-        pos[inOrder[i]] = i;
-    }
-
-    solve(0, n - 1, 0, n - 1);
+    TreeRebuilder solver(n, move(inorder), move(postorder));
+    solver.printPreorder(cout);
     return 0;
 }
