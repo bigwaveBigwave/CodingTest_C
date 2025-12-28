@@ -4,40 +4,45 @@ using namespace std;
 
 class TreeRebuilder {
 public:
-    TreeRebuilder(int n, vector<int> inorder, vector<int> postorder)
-        : n_(n), inorder_(move(inorder)), postorder_(move(postorder)), indexInInorder_(n_ + 1, -1) {
-        // 값 -> inorder 인덱스
-        for (int i = 0; i < n_; ++i) {
+    // 노드 값이 1 ~ N 이라고 가정(백준 2263 형태)
+    TreeRebuilder(const vector<int>& inorder, const vector<int>& postorder)
+        : inorder_(inorder),
+        postorder_(postorder),
+        indexInInorder_(inorder.size() + 1, -1) {
+
+        const int n = static_cast<int>(inorder_.size());
+        // 값 -> inorder 인덱스 매핑
+        for (int i = 0; i < n; ++i) {
             indexInInorder_[inorder_[i]] = i;
         }
     }
 
-    void printPreorder(ostream& out) const {
-        buildAndPrint(0, n_ - 1, 0, n_ - 1, out);
+    void printPreorder() {
+        const int n = static_cast<int>(inorder_.size());
+        buildAndPrint(0, n - 1, 0, n - 1);
     }
 
 private:
-    int n_;
-    vector<int> inorder_;
-    vector<int> postorder_;
+    const vector<int>& inorder_;
+    const vector<int>& postorder_;
     vector<int> indexInInorder_; // value -> inorder index
 
-    void buildAndPrint(int inL, int inR, int postL, int postR, ostream& out) const {
+    void buildAndPrint(int inL, int inR, int postL, int postR) {
         if (inL > inR || postL > postR) return;
 
-        const int root = postorder_[postR];
-        out << root << ' ';
+        int root = postorder_[postR];
+        cout << root << ' ';
 
-        const int rootIdx = indexInInorder_[root];
-        const int leftSize = rootIdx - inL;
+        int rootIdx = indexInInorder_[root];
+        int leftSize = rootIdx - inL;
 
-        // Left subtree
+        // 왼쪽 서브트리
         buildAndPrint(inL, rootIdx - 1,
-            postL, postL + leftSize - 1, out);
+            postL, postL + leftSize - 1);
 
-        // Right subtree
+        // 오른쪽 서브트리
         buildAndPrint(rootIdx + 1, inR,
-            postL + leftSize, postR - 1, out);
+            postL + leftSize, postR - 1);
     }
 };
 
@@ -52,7 +57,7 @@ int main() {
     for (int i = 0; i < n; ++i) cin >> inorder[i];
     for (int i = 0; i < n; ++i) cin >> postorder[i];
 
-    TreeRebuilder solver(n, move(inorder), move(postorder));
-    solver.printPreorder(cout);
+    TreeRebuilder solver(inorder, postorder);
+    solver.printPreorder();
     return 0;
 }
