@@ -1,8 +1,7 @@
 #include<iostream>
+#include<cmath>
 using namespace std;
-int answer = 0;//이동 횟수의 최솟값
-int loc = 0;//현재 위치
-int dist = 0;//이동 거리
+
 
 int solution(int x, int y) {
 
