@@ -1,28 +1,26 @@
-#include <bits/stdc++.h>
+#include<iostream>
 using namespace std;
+int answer = 0;//이동 횟수의 최솟값
+int loc = 0;//현재 위치
+int dist = 0;//이동 거리
 
+int solution(int x, int y) {
+
+    if (y - x == 1) {
+        answer += 1;
+        return answer;
+    }
+    else {
+
+    }
+}
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int T;
+    int T, x, y;
     cin >> T;
+
     while (T--) {
-        long long x, y;
         cin >> x >> y;
-        long long d = y - x;
-
-        long long k = (long long)sqrt((long double)d);  // floor(sqrt(d))
-
-        if (k * k == d) {
-            cout << 2 * k - 1 << "\n";
-        }
-        else if (d <= k * k + k) {
-            cout << 2 * k << "\n";
-        }
-        else {
-            cout << 2 * k + 1 << "\n";
-        }
+        solution(x, y);
     }
     return 0;
 }
