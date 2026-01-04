@@ -67,36 +67,81 @@ east <- bottom
 
 */
 
+
+
 int main() {
-    int N, M, x, y, count;
-    cin >> N >> M >> x >> y >> count;
-    vector<vector<int>> v(N, vector<int>(M));
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
+    int N, M, x, y, K;
+    cin >> N >> M >> x >> y >> K;
 
-    //지도 좌표 값 입력 받기
+    vector<vector<int>> board(N, vector<int>(M));
     for (int i = 0; i < N; i++) {
-        for (int j = 0; j < M; j++) {
-            cin >> v[i][j];
-        }
+        for (int j = 0; j < M; j++) cin >> board[i][j];
     }
 
-    while (count--) {
-        int instruction;
-        cin >> instruction;
-        x = x + dx[instruction];
-        y = y + dy[instruction];
-        if (x < 0 || y < 0 || x >= N || y >= M) {
-            continue;
-        }
-        
-            if (v[x][y] == 0) {
-                v[x][y] = down;
-            }
-            else {
-                down = v[x][y];
-                cube[1][1] = down;
-            }
+    // d[0]=top, d[1]=bottom, d[2]=north, d[3]=south, d[4]=west, d[5]=east
+    int d[6] = { 0, 0, 0, 0, 0, 0 };
 
+    // cmd: 1=동, 2=서, 3=북, 4=남
+    int dx[5] = { 0, 0, 0, -1, 1 };
+    int dy[5] = { 0, 1, -1, 0, 0 };
+
+    while (K--) {
+        int cmd;
+        cin >> cmd;
+
+        // Step A: 다음 칸 계산
+        int nx = x + dx[cmd];
+        int ny = y + dy[cmd];
+
+        // Step B: 범위 밖이면 무시
+        if (nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
+
+        // Step C: 이동 확정
+        x = nx; y = ny;
+
+        // Step C: 주사위 회전 (tmp로 기존값 보존)
+        int top = d[0], bottom = d[1], north = d[2], south = d[3], west = d[4], east = d[5];
+
+        if (cmd == 1) {          // 동
+            d[0] = west;
+            d[1] = east;
+            d[4] = bottom;
+            d[5] = top;
+        }
+        else if (cmd == 2) {   // 서
+            d[0] = east;
+            d[1] = west;
+            d[4] = top;
+            d[5] = bottom;
+        }
+        else if (cmd == 3) {   // 북
+            d[0] = south;
+            d[1] = north;
+            d[2] = top;
+            d[3] = bottom;
+        }
+        else if (cmd == 4) {   // 남
+            d[0] = north;
+            d[1] = south;
+            d[2] = bottom;
+            d[3] = top;
+        }
+
+        // Step D: 지도 칸 ↔ 바닥면 규칙
+        if (board[x][y] == 0) {
+            board[x][y] = d[1];
+        }
+        else {
+            d[1] = board[x][y];
+            board[x][y] = 0;
+        }
+
+        // Step E: 위 출력
+        cout << d[0] << "\n";
     }
+
     return 0;
 }
