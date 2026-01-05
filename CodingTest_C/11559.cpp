@@ -83,7 +83,7 @@ int main() {
                     for (int dir = 0; dir < 4; dir++) {
                         int nx = curr.first + dx[dir];
                         int ny = curr.second + dy[dir];
-                        if (nx < 0 || ny > 0 || nx >= 12 || ny >= 6) continue;
+                        if (nx < 0 || ny < 0 || nx >= 12 || ny >= 6) continue;
                         if (visited[nx][ny]) continue;
                         if (board[nx][ny] != color) continue;
 
@@ -116,12 +116,15 @@ int main() {
                     board[write][c] = board[r][c];//떨어뜨리기
                     if (write != r) {//원래 자리는 비우기
                         board[r][c] = '.';
-                        write--;//포인터 이동
+
                     }
+                    write--;//포인터 이동
                 }
+
+            }
                 //정리 안 된 위쪽 구간을 전부 빈 칸으로 초기화
                 for (int r = write; r >= 0; r--) board[r][c] = '.';
-            }
+            
         }
 
     }
